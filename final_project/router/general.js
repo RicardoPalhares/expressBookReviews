@@ -31,13 +31,20 @@ public_users.get('/isbn/:isbn',function (req, res) {
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  let author = req.params.author;
+  let selectedBook = Object.values(books).filter((book) => book.author === author);
+
+  return res.json(selectedBook);
 });
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  let title = req.params.title;
+
+  let selectedBook = Object.values(books).filter((book) => book.title === title);
+
+  return res.json(selectedBook);
 });
 
 //  Get book review
