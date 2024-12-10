@@ -3,6 +3,7 @@ let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
+const axios = require("axios")
 
 
 public_users.post("/register", (req,res) => {
@@ -43,38 +44,38 @@ public_users.post("/register", (req,res) => {
 });
 
 // Get the book list available in the shop
-public_users.get('/',function (req, res) {
+public_users.get('/',async function (req, res) {
   //Write your code here
+ const book = await res.json(books)
 
-
-  return res.json(books);
+  return book;
 });
 
 // Get book details based on ISBN
-public_users.get('/isbn/:isbn',function (req, res) {
+public_users.get('/isbn/:isbn',async function (req, res) {
 
   let isbn = req.params.isbn
 
-  let filtedBook = books[isbn]
+  let filtedBook = await books[isbn]
   //Write your code here
   return res.send(JSON.stringify(filtedBook));
  });
   
 // Get book details based on author
-public_users.get('/author/:author',function (req, res) {
+public_users.get('/author/:author',async function (req, res) {
   //Write your code here
   let author = req.params.author;
-  let selectedBook = Object.values(books).filter((book) => book.author === author);
+  let selectedBook = await Object.values(books).filter((book) => book.author === author);
 
   return res.json(selectedBook);
 });
 
 // Get all books based on title
-public_users.get('/title/:title',function (req, res) {
+public_users.get('/title/:title',async function (req, res) {
   //Write your code here
   let title = req.params.title;
 
-  let selectedBook = Object.values(books).filter((book) => book.title === title);
+  let selectedBook = await Object.values(books).filter((book) => book.title === title);
 
   return res.json(selectedBook);
 });
